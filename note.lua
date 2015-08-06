@@ -1,6 +1,6 @@
 local notes = {'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'}
 
-local following = function (note)
+function following (note)
   if note == 'B' then
     return 'C'
   end
@@ -14,7 +14,7 @@ local following = function (note)
 
 end
 
-local previous = function (note)
+function previous (note)
   if note == 'C' then
     return 'B'
   end
@@ -28,5 +28,3 @@ local previous = function (note)
 
 end
 
-print(following('G'))
-print(previous('G'))
