@@ -3,30 +3,34 @@ require './interval'
 require './listutil'
 
 function createScale (root, intervals)
-  local scale = { root }
+  local scaleNotes = { root }
 
+  -- resolves each interval into notes
   for _, interval in ipairs(intervals) do
-    table.insert(scale, resolveInterval(root, 'ascending', interval))
+    table.insert(scaleNotes, resolveInterval(
+      root, 'ascending', interval ))
   end
 
-  return scale
+  return scaleNotes
 end
 
 function createMode (mode, root)
-  --TODO: fazer um generator
   local scale = createScale(root, 
-  		{ majorSecond
+  	{ majorSecond
 		, majorThird
 		, perfectFourth
 		, perfectFifth
 		, majorSixth
 		, majorSeventh })
 
-  return table.take(table.drop(table.merge(
-      scale, scale),
-    mode - 1 ), 
-  7)
-  
+  local twoOctaves = table.merge(scale, scale)
+
+  -- sets the first note corresponding to the mode root
+  local shiftedScale = table.drop(twoOctaves, mode - 1 )
+
+  -- composes the scale with 7 notes only
+  return table.take(shiftedScale, 7)
+
 end
 
 function ionianScale (root)
@@ -59,8 +63,7 @@ end
 
 function minorScale (root)
   return aeolianScale(resolveInterval(
-      root, 'ascending', minorThird
-  ))
+      root, 'ascending', minorThird ))
 end
 
 majorScale = ionianScale
